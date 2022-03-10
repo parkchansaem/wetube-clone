@@ -1,0 +1,10 @@
+extends base
+
+block content 
+    if erorr
+        h1 #{erorr}
+    form(method="POST")
+        input(name="title" placeholder="Title" type="text" required)
+        input(name="description" placeholder="description" type="text" required)
+        input(name="hashtags" placeholder="Hashtags, separated by comma" type="text" required)
+        input(value="Upload video" type="submit")

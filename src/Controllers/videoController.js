@@ -1,40 +1,40 @@
-const fakeUsers = {
-  name: "chansaem",
-  loggined: true,
-};
+import Video from "../models/Video";
 
-export const see = (req, res) => res.render("watch");
-export const Edit = (req, res) => res.render("edit");
-export const Trending = (req, res) => {
-  const videos = [
-    {
-      title: "First Video",
-      rating: 5,
-      comments: 2,
-      createdAt: "2 minutes ago",
-      views: 62,
-      id: 1,
-    },
-    {
-      title: "Second Video",
-      rating: 5,
-      comments: 2,
-      createdAt: "2 minutes ago",
-      views: 62,
-      id: 1,
-    },
-    {
-      title: "Third Video",
-      rating: 5,
-      comments: 2,
-      createdAt: "2 minutes ago",
-      views: 62,
-      id: 1,
-    },
-  ];
-  return res.render("home", { pageTitle: "home", fakeUsers, videos });
+export const watch = (req, res) => {
+  const { id } = req.params;
+  return res.render("watch", { pageTitle: `watching ` });
 };
+export const getEdit = (req, res) => {
+  const { id } = req.params;
 
-export const search = (req, res) => res.send("Search");
-export const deleteVideo = (req, res) => res.send("Delete Video");
-export const upload = (req, res) => res.send("Upload video");
+  res.render("edit", { pageTitle: `Editing ` });
+};
+export const postEdit = (req, res) => {
+  const { id } = req.params;
+  const { title } = req.body;
+  res.redirect(`/videos/${id}`);
+};
+export const home = async (req, res) => {
+  try {
+    const videos = await Video.find({});
+    return res.render("home", { pageTitle: "home", videos });
+  } catch {
+    return res.render("sever-error");
+  }
+};
+export const getUpload = (req, res) => {
+  return res.render("upload", { pageTitle: "upload" });
+};
+export const postUpload = async (req, res) => {
+  const { title, description, hashtags } = req.body;
+  try {
+    await Video.create({
+      title,
+      description,
+      hashtags: hashtags.split(",").map((word) => `#${word}`),
+    });
+    return res.redirect("/");
+  } catch (erorr) {
+    return res.render("upload", { pageTitle: "upload", erorr: erorr._message });
+  }
+};
