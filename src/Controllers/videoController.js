@@ -1,17 +1,31 @@
 import Video from "../models/Video";
 
-export const watch = (req, res) => {
+export const watch = async (req, res) => {
   const { id } = req.params;
-  return res.render("watch", { pageTitle: `watching ` });
+  const video = await Video.findById(id);
+  if (!video) {
+    return res.render("404", { pageTitle: "video not found" });
+  }
+  return res.render("watch", { pageTitle: video.title, video });
 };
-export const getEdit = (req, res) => {
+export const getEdit = async (req, res) => {
   const { id } = req.params;
-
-  res.render("edit", { pageTitle: `Editing ` });
+  const video = await Video.findById(id);
+  if (!video) {
+    return res.render("404", { pageTitle: "video not found" });
+  }
+  res.render("edit", { pageTitle: `Editing ${video.title} `, video });
 };
-export const postEdit = (req, res) => {
+export const postEdit = async (req, res) => {
   const { id } = req.params;
-  const { title } = req.body;
+  const { title, description, hashtags } = req.body;
+  const video = await Video.findById(id);
+  if (!video) {
+    return res.render("404", { pageTitle: "video not found " });
+  }
+  video.title = title;
+  video.description = description;
+  video.hashtags = hashtags;
   res.redirect(`/videos/${id}`);
 };
 export const home = async (req, res) => {
