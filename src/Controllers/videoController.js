@@ -59,3 +59,8 @@ export const getDelete = async (req, res) => {
   await Video.findByIdAndDelete(id);
   return res.redirect("/");
 };
+
+export const search = (req, res) => {
+  console.log(req.query);
+  return res.redirect("/");
+};
