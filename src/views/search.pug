@@ -1,0 +1,9 @@
+extends base.pug
+include mixin/video.pug
+block content 
+    form(method="get")
+        input(name="keyword" placeholder="keyword write" required)
+        input(type="submit" value="submit click")
+    
+    each video in videos 
+        +video(video)

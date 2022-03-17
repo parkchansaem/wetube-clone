@@ -32,7 +32,7 @@ export const postEdit = async (req, res) => {
 };
 export const home = async (req, res) => {
   try {
-    const videos = await Video.find({});
+    const videos = await Video.find({}).sort({ createAt: "desc" });
     return res.render("home", { pageTitle: "home", videos });
   } catch {
     return res.render("sever-error");
@@ -60,7 +60,14 @@ export const getDelete = async (req, res) => {
   return res.redirect("/");
 };
 
-export const search = (req, res) => {
-  console.log(req.query);
-  return res.redirect("/");
+export const search = async (req, res) => {
+  const { keyword } = req.query;
+  let videos = [];
+  if (keyword) {
+    videos = await Video.find({
+      title: keyword,
+    });
+  }
+  return res.render("search", { pageTitle: "search", videos });
 };
+//
