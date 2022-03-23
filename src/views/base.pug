@@ -12,10 +12,19 @@ html(lang="ko")
                         a(href="/videos/upload") Upload Video
                     li 
                         a(href="/") home
+                    if loggedIn
+                        li 
+                            a(href="/logout") log out
+                        li 
+                            a(href="/my-profile") #{loggedInUser.name} 의 profile
+                    else 
+                        li 
+                            a(href="/login") login
+                        li 
+                            a(href="/join") join
                     li 
                         a(href="/search") search
-                    li 
-                        a(href="/join") join
+                
         main
             block content
             
