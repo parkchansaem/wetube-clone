@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import sesstion from "express-session";
 import globalRouter from "./Router/globalRouter";
+import mongoStore from "connect-mongo";
 import userRouter from "./Router/uesrRouter";
 import videoRouter from "./Router/videoRouter";
 import { localsMiddleware } from "./middlewares";
@@ -18,8 +19,11 @@ app.use(
   sesstion({
     secret: "hello",
     extended: true,
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
+    store: mongoStore.create({
+      mongoUrl: "mongodb://127.0.0.1:27017/chansaem-wetube",
+    }),
   })
 );
 
