@@ -1,3 +1,4 @@
+require("dotenv").config();
 import express from "express";
 import morgan from "morgan";
 import sesstion from "express-session";
@@ -17,12 +18,12 @@ app.use(logger);
 app.use(express.urlencoded({ extend: true }));
 app.use(
   sesstion({
-    secret: "hello",
+    secret: process.env.COOKIE_SCRET,
     extended: true,
     resave: false,
     saveUninitialized: false,
     store: mongoStore.create({
-      mongoUrl: "mongodb://127.0.0.1:27017/chansaem-wetube",
+      mongoUrl: process.env.DB_URL
     }),
   })
 );
