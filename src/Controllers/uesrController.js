@@ -1,7 +1,6 @@
 import User from "../models/User";
 import fetch from "node-fetch";
 import bcryptjs from "bcryptjs";
-import { redirect } from "express/lib/response";
 export const Edituser = (req, res) => res.send("Edit User");
 export const Remove = (req, res) => res.send("Remove");
 export const getJoin = (req, res) => res.render("join", { pageTitle: "join" });
@@ -140,7 +139,23 @@ export const logout = (req, res) => {
 export const getedit = (req, res) => {
   return res.render("edit-profile", { pageTitle: "Edit profile" });
 };
-export const postedit = (req, res) => {
-  return res.render("edit-profile");
+export const postedit = async (req, res) => {
+  const {
+    session: {
+      user: { _id },
+    },
+    body: { name, email, username },
+  } = req;
+  const updatausers = await User.findByIdAndUpdate(
+    _id,
+    {
+      name,
+      email,
+      username,
+    },
+    { new: true }
+  );
+  req.session.user = updatausers;
+  return res.redirect("/user/edit");
 };
 export const see = (req, res) => res.send("user ssSee");
