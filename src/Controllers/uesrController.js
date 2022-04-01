@@ -5,7 +5,6 @@ export const Edituser = (req, res) => res.send("Edit User");
 export const Remove = (req, res) => res.send("Remove");
 export const getJoin = (req, res) => res.render("join", { pageTitle: "join" });
 export const postJoin = async (req, res) => {
-  console.log(req.body);
   const { email, password, password2, name, location, username } = req.body;
   const usernameExists = await User.exists({ $or: [{ username }, { email }] });
   if (password !== password2) {
@@ -157,5 +156,14 @@ export const postedit = async (req, res) => {
   );
   req.session.user = updatausers;
   return res.redirect("/user/edit");
+};
+export const getChangePassword = (req, res) => {
+  if (req.session.user.socialOnly === true) {
+    return res.redircet("/");
+  }
+  return res.render("users/change-password", { pageTitle: "Change Password" });
+};
+export const postChangePassword = (req, res) => {
+  return res.redirect("/");
 };
 export const see = (req, res) => res.send("user ssSee");
