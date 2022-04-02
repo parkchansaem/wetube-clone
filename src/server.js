@@ -1,4 +1,3 @@
-
 import express from "express";
 import morgan from "morgan";
 import sesstion from "express-session";
@@ -23,14 +22,15 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: mongoStore.create({
-      mongoUrl: process.env.DB_URL
+      mongoUrl: process.env.DB_URL,
     }),
   })
 );
 
 app.use(localsMiddleware);
+app.use("/uploads", express.static("uploads"));
 app.use("/", globalRouter);
 app.use("/user", userRouter);
 app.use("/videos", videoRouter);
 export default app;
- // wkf
+// wkf
