@@ -3,9 +3,9 @@ extends base
 block content 
     if erorr
         h1 #{erorr}
-    form(method="POST")
+    form(method="POST" enctype="multipart/form-data")
         labal(for="video") Video File
-        input(type="file" accept="video/*" required id="video")
+        input(type="file" accept="video/*" required id="video" name="video")
         input(name="title" placeholder="Title" type="text" required)
         input(name="description" placeholder="description" type="text" required)
         input(name="hashtags" placeholder="Hashtags, separated by comma" type="text" required)

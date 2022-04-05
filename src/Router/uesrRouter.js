@@ -10,6 +10,7 @@ import {
   postChangePassword,
 } from "../Controllers/uesrController";
 import {
+  avatarUpload,
   protectorMiddleware,
   publicOnlyMiddleware,
   uploadFiles,
@@ -20,7 +21,7 @@ userRouter
   .route("/edit")
   .all(protectorMiddleware)
   .get(getedit)
-  .post(uploadFiles.single("avatar"), postedit);
+  .post(avatarUpload.single("avatar"), postedit);
 userRouter.get("/logout", protectorMiddleware, logout);
 userRouter
   .route("/change-password")
